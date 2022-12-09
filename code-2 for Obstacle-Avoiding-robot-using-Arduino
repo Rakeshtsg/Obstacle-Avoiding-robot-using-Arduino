@@ -1,0 +1,56 @@
+// Import the required libraries
+#include <Ultrasonic.h>
+
+// Set the pins for the ultrasonic sensor
+const int trigPin = 9;
+const int echoPin = 10;
+
+// Set the pins for the motors
+const int leftMotorPin = 2;
+const int rightMotorPin = 3;
+
+// Create the ultrasonic sensor
+Ultrasonic ultrasonic(trigPin, echoPin);
+
+void setup()
+{
+  // Set the initial direction and speed of the motors
+  leftMotorPin = 100;
+  rightMotorPin = 100;
+}
+
+void loop()
+{
+  // Measure the distance to the nearest obstacle
+  long distance = ultrasonic.Ranging(CM);
+
+  // Check if an obstacle is close
+  if (distance < 10)
+  {
+    // Stop the motors
+    leftMotorPin = 0;
+    rightMotorPin = 0;
+
+    // Turn the robot in a random direction
+    int turn = random(0, 2);
+    if (turn == 0)
+    {
+      // Turn left
+      leftMotorPin = -100;
+      rightMotorPin = 100;
+    }
+    else
+    {
+      // Turn right
+      leftMotorPin = 100;
+      rightMotorPin = -100;
+    }
+
+    // Wait for a short time
+    delay(500);
+
+    // Continue moving forward
+    leftMotorPin = 100;
+    rightMotorPin = 100;
+  }
+}
